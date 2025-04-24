@@ -7,7 +7,10 @@ import {
   Text,
   Button,
   Anchor,
+  ActionIcon,
 } from "@mantine/core";
+import { IconEye } from "@tabler/icons-react";
+import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -25,8 +28,15 @@ export default function SignUpPage() {
     email: "",
     password: "",
   });
+  const [seePassword, setSeePassword] = useState(false);
+  const [loading, { open: startLoading, close: stopLoading }] =
+    useDisclosure(false);
 
   const navigate = useNavigate();
+
+  const handleSeePassword = () => {
+    setSeePassword(!seePassword);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,16 +45,18 @@ export default function SignUpPage() {
   };
 
   const handleSignup = async () => {
+    startLoading();
     try {
       await signup(formData);
       setFormErrors({ name: "", email: "", password: "" });
       navigate("/");
     } catch (error) {
-      console.log(error);
       if (error.response.data.error.details) {
         const errors = formatErrors(error.response.data.error.details);
         setFormErrors((prev) => ({ ...prev, ...errors }));
       }
+    } finally {
+      stopLoading();
     }
   };
 
@@ -80,13 +92,28 @@ export default function SignUpPage() {
           name="password"
           label="Password"
           value={formData.password}
-          type="password"
+          type={seePassword ? "text" : "password"}
           mt="md"
           error={formErrors.password}
+          rightSection={
+            <ActionIcon
+              variant="transparent"
+              color={seePassword ? "black" : "gray"}
+              onClick={handleSeePassword}
+            >
+              <IconEye />
+            </ActionIcon>
+          }
           onChange={handleChange}
         />
         <Center>
-          <Button variant="filled" mt="xl" w="40%" onClick={handleSignup}>
+          <Button
+            loading={loading}
+            variant="filled"
+            mt="xl"
+            w="40%"
+            onClick={handleSignup}
+          >
             Sign Up
           </Button>
         </Center>

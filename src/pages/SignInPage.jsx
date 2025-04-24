@@ -9,6 +9,7 @@ import {
   Anchor,
   ActionIcon,
 } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 import { IconEye } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
@@ -20,6 +21,8 @@ export default function SignInPage() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [formErrors, setFormErrors] = useState({ email: "", password: "" });
   const [seePassword, setSeePassword] = useState(false);
+  const [loading, { open: startLoading, close: stopLoading }] =
+    useDisclosure(false);
 
   const navigate = useNavigate();
 
@@ -30,16 +33,21 @@ export default function SignInPage() {
   };
 
   const handleSignin = async () => {
+    startLoading();
     try {
-      await signin(formData);
+      const res = await signin(formData);
+      const accessToken = res.data.accessToken;
       setFormErrors({ email: "", password: "" });
+      localStorage.setItem("accessToken", accessToken);
       navigate("/");
     } catch (error) {
-      console.log(error);
       if (error.response.data.error.details) {
         const errors = formatErrors(error.response.data.error.details);
+
         setFormErrors((prev) => ({ ...prev, ...errors }));
       }
+    } finally {
+      stopLoading();
     }
   };
 
@@ -84,7 +92,13 @@ export default function SignInPage() {
           onChange={handleChange}
         />
         <Center>
-          <Button variant="filled" mt="xl" w="40%" onClick={handleSignin}>
+          <Button
+            loading={loading}
+            variant="filled"
+            mt="xl"
+            w="40%"
+            onClick={handleSignin}
+          >
             Sign In
           </Button>
         </Center>
@@ -95,6 +109,11 @@ export default function SignInPage() {
               Sign Up
             </Anchor>
           </Text>
+        </Center>
+        <Center>
+          <Anchor component={Link} to="/forgot-password">
+            Forgot password?
+          </Anchor>
         </Center>
       </Fieldset>
     </Container>
