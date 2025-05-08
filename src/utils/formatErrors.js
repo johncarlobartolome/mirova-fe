@@ -1,6 +1,6 @@
 const formatErrors = (errors) => {
   return errors.reduce((acc, err) => {
-    acc[err.path] = err.msg;
+    acc[err.field] = err.message;
     return acc;
   }, {});
 };
