@@ -36,7 +36,7 @@ export default function SignInPage() {
     startLoading();
     try {
       const res = await signin(formData);
-      const accessToken = res.data.accessToken;
+      const accessToken = res.data.data.accessToken;
       setFormErrors({ email: "", password: "" });
       localStorage.setItem("accessToken", accessToken);
       navigate("/");
