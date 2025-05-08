@@ -51,7 +51,6 @@ export default function SignUpPage() {
       setFormErrors({ name: "", email: "", password: "" });
       navigate("/");
     } catch (error) {
-      console.log(error.response.data.errors);
       if (error.response.data.errors) {
         const errors = formatErrors(error.response.data.errors);
         setFormErrors((prev) => ({ ...prev, ...errors }));

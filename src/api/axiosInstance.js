@@ -18,4 +18,8 @@ instance.interceptors.request.use(
   }
 );
 
+// instance.interceptors.response.use(undefined, (error) => {
+//   return Promise.reject(error);
+// });
+
 export default instance;
