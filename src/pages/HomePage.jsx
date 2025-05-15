@@ -54,6 +54,7 @@ export default function HomePage() {
             <Menu>
               <Menu.Target>
                 <ActionIcon
+                  color="black"
                   variant="transparent"
                   style={{ justifySelf: "end" }}
                 >

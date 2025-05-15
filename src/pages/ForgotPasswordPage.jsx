@@ -64,8 +64,8 @@ export default function ForgotPasswordPage() {
         setIsRunning(true);
       }
     } catch (error) {
-      if (error.response.data.error.details) {
-        const errors = formatErrors(error.response.data.error.details);
+      if (error.response.data.errors) {
+        const errors = formatErrors(error.response.data.errors);
         setErrorEmail(errors["email"]);
       }
     } finally {
