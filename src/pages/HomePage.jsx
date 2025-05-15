@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {
   AppShell,
   Container,
@@ -15,12 +16,23 @@ import {
   Badge,
 } from "@mantine/core";
 import Boards from "../components/Boards";
-import { IconLayoutBoardSplit, IconMenu2 } from "@tabler/icons-react";
+import {
+  IconLayoutBoardSplit,
+  IconMenu2,
+  IconLogout,
+} from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { ReactComponent as MirovaLogo } from "../assets/mirova-icon.svg";
 
 export default function HomePage() {
   const [opened, { toggle }] = useDisclosure();
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    localStorage.removeItem("accessToken");
+    navigate("/signin");
+  };
+
   return (
     <AppShell
       header={{ height: 60 }}
@@ -39,10 +51,24 @@ export default function HomePage() {
 
               <Title>Mirova</Title>
             </Group>
-            <Menu></Menu>
-            <ActionIcon variant="transparent" style={{ justifySelf: "end" }}>
-              <IconMenu2 />
-            </ActionIcon>
+            <Menu>
+              <Menu.Target>
+                <ActionIcon
+                  variant="transparent"
+                  style={{ justifySelf: "end" }}
+                >
+                  <IconMenu2 />
+                </ActionIcon>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Item
+                  leftSection={<IconLogout size={14} />}
+                  onClick={handleLogOut}
+                >
+                  Logout
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
           </Group>
         </Group>
       </AppShell.Header>

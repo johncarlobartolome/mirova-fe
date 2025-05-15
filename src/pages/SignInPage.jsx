@@ -41,8 +41,8 @@ export default function SignInPage() {
       localStorage.setItem("accessToken", accessToken);
       navigate("/");
     } catch (error) {
-      if (error.response.data.error.details) {
-        const errors = formatErrors(error.response.data.error.details);
+      if (error.response.data.errors) {
+        const errors = formatErrors(error.response.data.errors);
 
         setFormErrors((prev) => ({ ...prev, ...errors }));
       }
