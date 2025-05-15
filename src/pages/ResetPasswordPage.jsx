@@ -34,8 +34,8 @@ export default function ResetPasswordPage() {
       navigate("/signin");
     } catch (error) {
       console.log(error);
-      if (error.response.data.error.details) {
-        const errors = formatErrors(error.response.data.error.details);
+      if (error.response.data.errors) {
+        const errors = formatErrors(error.response.data.errors);
         setErrorNewPassword(errors["password"]);
       }
     }
