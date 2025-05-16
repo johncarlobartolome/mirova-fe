@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useViewportSize } from "@mantine/hooks";
 import {
   Flex,
@@ -24,6 +25,7 @@ export default function ForgotPasswordPage() {
   const [timeLeft, setTimeLeft] = useState(60);
   const [isRunning, setIsRunning] = useState(false);
   const { height } = useViewportSize();
+  const navigate = useNavigate();
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -96,6 +98,16 @@ export default function ForgotPasswordPage() {
             onClick={() => handleClick("resend")}
           >
             Resend Link {isRunning ? `${formatTime(timeLeft)}` : ""}
+          </Button>
+          <Button
+            variant="transparent"
+            color="blue"
+            fullWidth
+            mt="sm"
+            radius="md"
+            onClick={() => navigate("/signin")}
+          >
+            Go Back to Sign In
           </Button>
         </Card>
       ) : (
