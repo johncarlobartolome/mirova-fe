@@ -14,10 +14,12 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { createBoard, getBoards } from "../api/board";
+import formatErrors from "../utils/formatErrors";
 
 export default function Boards() {
   const [boards, setBoards] = useState([]);
   const [title, setTitle] = useState("");
+  const [errorTitle, setErrorTitle] = useState("");
   const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
@@ -38,13 +40,22 @@ export default function Boards() {
       const res = await createBoard({ title });
       console.log(res);
       setBoards((prev) => [...prev, { title }]);
+      close();
     } catch (error) {
-      console.log(error);
+      if (error.response.data.errors) {
+        const errors = formatErrors(error.response.data.errors);
+        setErrorTitle(errors["title"]);
+      }
     } finally {
       setTitle("");
-      close();
     }
   };
+
+  const handleChangeTitle = (e) => {
+    setErrorTitle("");
+    setTitle(e.target.value);
+  };
+
   return (
     <Container size="xl">
       <Title>Boards</Title>
@@ -62,7 +73,10 @@ export default function Boards() {
         })}
         <Grid.Col
           span={3}
-          onClick={open}
+          onClick={() => {
+            open();
+            setErrorTitle("");
+          }}
           style={{
             cursor: "pointer",
           }}
@@ -88,7 +102,8 @@ export default function Boards() {
             name="title"
             label="Title"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            error={errorTitle}
+            onChange={handleChangeTitle}
           />
           <Button onClick={handleCreateBoard}>Create</Button>
         </Stack>
