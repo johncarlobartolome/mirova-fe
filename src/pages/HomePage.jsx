@@ -22,7 +22,7 @@ import {
   IconLogout,
 } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
-import { ReactComponent as MirovaLogo } from "../assets/mirova-icon.svg";
+import { ReactComponent as MirovaLogo } from "../assets/mirova-logo.svg";
 
 export default function HomePage() {
   const [opened, { toggle }] = useDisclosure();
@@ -45,8 +45,8 @@ export default function HomePage() {
           <Group justify="space-between" style={{ flex: 1 }}>
             <Group>
               <MirovaLogo
-                style={{ width: "42px", height: "auto" }}
-                fill="cyan"
+                style={{ width: "36px", height: "auto" }}
+                fill="black"
               />
 
               <Title>Mirova</Title>
