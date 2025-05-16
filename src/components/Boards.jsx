@@ -15,12 +15,14 @@ import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import { createBoard, getBoards } from "../api/board";
 import formatErrors from "../utils/formatErrors";
+import { useNavigate } from "react-router-dom";
 
 export default function Boards() {
   const [boards, setBoards] = useState([]);
   const [title, setTitle] = useState("");
   const [errorTitle, setErrorTitle] = useState("");
   const [opened, { open, close }] = useDisclosure(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,6 +58,10 @@ export default function Boards() {
     setTitle(e.target.value);
   };
 
+  const handleBoardClick = (board) => {
+    navigate(`/board/${board._id}`, { state: { title: board.title } });
+  };
+
   return (
     <Container size="xl">
       <Title>Boards</Title>
@@ -63,7 +69,13 @@ export default function Boards() {
         {boards.map((board, index) => {
           return (
             <Grid.Col span={3} key={index}>
-              <Card shadow="sm" padding="lg" radius="md" withBorder>
+              <Card
+                shadow="sm"
+                padding="lg"
+                radius="md"
+                withBorder
+                onClick={() => handleBoardClick(board)}
+              >
                 <Group justify="space-between" mt="md" mb="xs">
                   <Text fw={500}>{board.title}</Text>
                 </Group>

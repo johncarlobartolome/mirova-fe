@@ -1,0 +1,10 @@
+.container {
+  width: 300px;
+  cursor: pointer;
+  display: inline-block;
+  box-shadow: var(--mantine-shadow-sm);
+}
+
+.container:hover {
+  background-color: var(--mantine-color-gray-4);
+}
