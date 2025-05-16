@@ -2,6 +2,7 @@ import { ScrollArea, Box, Text, Title, Card, Group, rem } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { useLocation } from "react-router-dom";
 import AddList from "../components/AddList";
+import BoardTitle from "../components/BoardTitle";
 
 export default function BoardPage() {
   const location = useLocation();
@@ -19,7 +20,7 @@ export default function BoardPage() {
             gap: rem(16),
           }}
         >
-          <Text>{title}</Text>
+          <BoardTitle title={title} />
           <AddList />
         </div>
       </ScrollArea>
