@@ -1,5 +1,15 @@
-import { ScrollArea, Box, Text, Title, Card, Group, rem } from "@mantine/core";
-import { IconPlus } from "@tabler/icons-react";
+import {
+  ScrollArea,
+  Box,
+  Text,
+  Title,
+  Center,
+  Flex,
+  rem,
+  ActionIcon,
+  TextInput,
+} from "@mantine/core";
+import { IconDots, IconPlus } from "@tabler/icons-react";
 import { useLocation } from "react-router-dom";
 import AddList from "../components/AddList";
 import BoardTitle from "../components/BoardTitle";
@@ -20,7 +30,12 @@ export default function BoardPage() {
             gap: rem(16),
           }}
         >
-          <BoardTitle title={title} />
+          <Flex align={"center"} justify={"space-between"}>
+            <BoardTitle title={title} />
+            <ActionIcon variant="transparent" aria-label="Menu" color="black">
+              <IconDots />
+            </ActionIcon>
+          </Flex>
           <AddList />
         </div>
       </ScrollArea>
