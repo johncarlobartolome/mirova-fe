@@ -4,3 +4,4 @@ export const getBoards = () => axios.get("/boards");
 export const createBoard = (data) => axios.post("/boards", data);
 export const updateBoard = (boardId, data) =>
   axios.patch(`/boards/${boardId}`, data);
+export const deleteBoard = (boardId) => axios.delete(`/boards/${boardId}`);
