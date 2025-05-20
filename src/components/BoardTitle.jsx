@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Text, TextInput } from "@mantine/core";
 import { updateBoard } from "../api/board";
 
 export default function BoardTitle({ title }) {
   const [newTitle, setNewTitle] = useState(title);
+  const previousTitle = useRef(title);
   const { boardId } = useParams();
 
   const handleFocus = (e) => {
@@ -14,20 +15,24 @@ export default function BoardTitle({ title }) {
   const handleBlur = async () => {
     if (newTitle === "") {
       setNewTitle(title);
+      previousTitle.current = title;
     }
-    try {
-      const data = {
-        title: newTitle,
-      };
-      await updateBoard(boardId, data);
-    } catch (error) {
-      console.log(error);
+
+    if (newTitle !== previousTitle.current) {
+      previousTitle.current = title;
+      try {
+        const data = {
+          title: newTitle,
+        };
+        await updateBoard(boardId, data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   return (
     <TextInput
-      autoFocus
       size="lg"
       variant="unstyled"
       value={newTitle}
